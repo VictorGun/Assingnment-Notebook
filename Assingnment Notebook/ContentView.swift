@@ -1,15 +1,18 @@
 //
 //  ContentView.swift
-//  Assingnment Notebook
+//  Assignment NoteBook
 //
-//  Created by Student on 1/13/22.
+//  Created by Student on 1/14/22.
 //
-
+ 
 import SwiftUI
-
+ 
 struct ContentView: View {
     @ObservedObject var assignmentList = AssignmentList()
     @State private var showingAddAssignmentView = false
+    init () {
+        UITableView.appearance().backgroundColor = .orange
+    }
     var body: some View {
         NavigationView {
             List {
@@ -23,6 +26,9 @@ struct ContentView: View {
                         Spacer()
                         Text(item.dueDate, style: .date)
                     }
+                    
+                    .listRowBackground(Color.blue)
+                    
                 }
                 .onMove(perform: { indices, newOffset in
                     assignmentList.items.move(fromOffsets: indices, toOffset: newOffset)
@@ -31,6 +37,7 @@ struct ContentView: View {
                     assignmentList.items.remove(atOffsets: indexSet)
                 })
             }
+            
             .sheet(isPresented: $showingAddAssignmentView, content: {
                 AddAssignmentView(assignmentList: assignmentList)
             })
@@ -41,8 +48,9 @@ struct ContentView: View {
                                 })
         }
     }
+    
 }
-
+ 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
@@ -54,3 +62,8 @@ struct AssignmentItem: Identifiable, Codable {
     var description = String()
     var dueDate = Date()
 }
+ 
+ 
+
+
+
